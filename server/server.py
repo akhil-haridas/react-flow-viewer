@@ -32,6 +32,12 @@ def convert_ifc():
     json_data = ifc_file.to_json()
 
     return jsonify(json_data)
+    
+@app.route('/log', methods=['GET'])
+def log():
+    return jsonify({'message': 'Server is running and logging correctly.'})
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
