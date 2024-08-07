@@ -6,7 +6,7 @@ const IfcViewer = () => {
             style={{
                 width: "400px",
                 height: "300px",
-                background: 'gray'
+                background: "gray",
             }}
         >
             <div className="ViewerTitleWrapper">

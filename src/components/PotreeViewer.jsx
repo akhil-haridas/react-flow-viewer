@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef } from "react";
 
-const PotreeViewer = ({ cloudUrl = "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js" }) => {
+const PotreeViewer = ({
+    cloudUrl = "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js",
+}) => {
     const potreeContainerDiv = useRef(null);
     const viewerInitialized = useRef(false);
 
@@ -42,11 +44,12 @@ const PotreeViewer = ({ cloudUrl = "http://5.9.65.151/mschuetz/potree/resources/
         initializeViewer();
     }, [initializeViewer]);
     return (
-        <div style={{
-            width: "600px",
-            height: "400px",
-        }}>
-
+        <div
+            style={{
+                width: "600px",
+                height: "400px",
+            }}
+        >
             <div className="potree_container">
                 <div className="potree_container">
                     <div id="potree_render_area" ref={potreeContainerDiv} />
