@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+
 import WebViewer from "@pdftron/webviewer";
 import { initializeAudioViewer } from "@pdftron/webviewer-audio";
 
@@ -7,37 +8,6 @@ const WebAudio = () => {
     const inputFile = useRef(null);
 
     const [audioInstance, setAudioInstance] = useState(null);
-
-    // if using a class, equivalent of componentDidMount
-    useEffect(() => {
-        WebViewer(
-            {
-                path: "/webviewer/lib",
-            },
-            viewer.current
-        ).then(async (instance) => {
-            instance.UI.setTheme("dark");
-            instance.UI.openElements(["notesPanel"]);
-
-            const license = `---- Insert commercial license key here after purchase ----`;
-            // Extends WebViewer to allow loading media files (.mp3, .mp4, ogg, webm, etc.)
-            const audioInstance = await initializeAudioViewer(instance, {
-                license,
-                isDemoMode: process.env.DEMO,
-            });
-
-            setAudioInstance(audioInstance);
-
-            // Load a media element at a specific url. Can be a local or public link
-            // If local it needs to be relative to lib/ui/index.html.
-            // Or at the root. (eg '/audio.mp3')
-            const audioUrl =
-                "https://pdftron.s3.amazonaws.com/downloads/pl/video/audio.mp3";
-
-            audioInstance.loadAudio(audioUrl);
-            initializeHeader(instance);
-        });
-    }, [initializeHeader]);
 
     const initializeHeader = useCallback((instance) => {
         const {
@@ -62,6 +32,37 @@ const WebAudio = () => {
         // eslint-disable-next-line
     }, []);
 
+    // if using a class, equivalent of componentDidMount
+    useEffect(() => {
+        WebViewer(
+            {
+                path: "/webviewer/lib",
+            },
+            viewer.current
+        ).then(async (instance) => {
+            instance.UI.setTheme("dark");
+            instance.UI.openElements(["notesPanel"]);
+
+            const license = `---- Insert commercial license key here after purchase ----`;
+            // Extends WebViewer to allow loading media files (.mp3, .mp4, ogg, webm, etc.)
+            const audioInstance = await initializeAudioViewer(instance, {
+                license,
+                // isDemoMode: process.env.DEMO,
+            });
+
+            setAudioInstance(audioInstance);
+
+            // Load a media element at a specific url. Can be a local or public link
+            // If local it needs to be relative to lib/ui/index.html.
+            // Or at the root. (eg '/audio.mp3')
+            const audioUrl =
+                "https://pdftron.s3.amazonaws.com/downloads/pl/video/audio.mp3";
+
+            audioInstance.loadAudio(audioUrl);
+            initializeHeader(instance);
+        });
+    }, [initializeHeader]);
+
     const onFileChange = async (event) => {
         const file = event.target.files[0];
 
@@ -72,7 +73,7 @@ const WebAudio = () => {
     };
 
     return (
-        <div className="App">
+        <div className="WebAudioWrapper">
             <input
                 type="file"
                 hidden
