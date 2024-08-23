@@ -35,3 +35,12 @@ body {
   font-size: 16px;
   letter-spacing: 1px;
 }
+
+.webviewer {
+  height: 100%;
+}
+
+.WebAudioWrapper {
+  width: 56%;
+  height: 100%;
+}
