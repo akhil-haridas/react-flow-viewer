@@ -19,6 +19,8 @@ body {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 30px;
+  display: flex;
+  gap: 10px;
 }
 
 .ViewerTitleWrapper {
@@ -37,6 +39,9 @@ body {
 }
 
 .webviewer {
+  height: 100%;
+}
+#webviewer2 {
   height: 100%;
 }
 
