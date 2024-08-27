@@ -1,89 +1,141 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-
-import WebViewer from "@pdftron/webviewer";
-import { initializeAudioViewer } from "@pdftron/webviewer-audio";
+import Nav from "../components/navigation/Nav";
+import Viewer from "../components/viewer/Viewer";
+import React, { useState } from "react";
+import WebViewerContext from "../context/webviewer";
 
 const WebHtml = () => {
-    const viewer3 = useRef(null);
-    const inputFile = useRef(null);
+  const [response, setResponse] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState("");
+  const [instance, setInstance] = useState();
+  const defaultPageDimensions = { width: 1440, height: 770 };
+  const [validUrl, setValidUrl] = useState("");
 
-    const [audioInstance, setAudioInstance] = useState(null);
+  const SERVER_ROOT = "localhost";
+  const PORT = "3100";
+  const PATH = `http://${SERVER_ROOT}:${PORT}`;
 
-    const initializeHeader = useCallback((instance) => {
-        const {
-            UI: { setHeaderItems },
-        } = instance;
+  const loadURL = async (url, customHeaders = {}) => {
+    setLoading(true);
+    setFetchError("");
 
-        setHeaderItems((header) => {
-            // Add upload file button
-            header.push({
-                type: "actionButton",
-                img: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 15H13V9H16L12 4L8 9H11V15Z" fill="currentColor"/>
-                            <path d="M20 18H4V11H2V18C2 19.103 2.897 20 4 20H20C21.103 20 22 19.103 22 18V11H20V18Z" fill="currentColor"/>
-                    </svg>`,
-                title: "Load file",
-                dataElement: "audio-loadFileButton",
-                onClick: () => {
-                    inputFile.current.click();
-                },
-            });
-        });
-        // eslint-disable-next-line
-    }, []);
-
-    // if using a class, equivalent of componentDidMount
-    useEffect(() => {
-        WebViewer(
-            {
-                path: "/webviewer/lib",
-            },
-            viewer3.current
-        ).then(async (instance) => {
-            instance.UI.setTheme("dark");
-            instance.UI.openElements(["notesPanel"]);
-
-            const license = `---- Insert commercial license key here after purchase ----`;
-            // Extends WebViewer to allow loading media files (.mp3, .mp4, ogg, webm, etc.)
-            const audioInstance = await initializeAudioViewer(instance, {
-                license,
-                // isDemoMode: process.env.DEMO,
-            });
-
-            setAudioInstance(audioInstance);
-
-            // Load a media element at a specific url. Can be a local or public link
-            // If local it needs to be relative to lib/ui/index.html.
-            // Or at the root. (eg '/audio.mp3')
-            const audioUrl =
-                "https://pdftron.s3.amazonaws.com/downloads/pl/video/audio.mp3";
-
-            audioInstance.loadAudio(audioUrl);
-            initializeHeader(instance);
-        });
-    }, [initializeHeader]);
-
-    const onFileChange = async (event) => {
-        const file = event.target.files[0];
-
-        // There won't be file if the file dialog is canceled
-        if (file) {
-            audioInstance.loadAudio(file, { fileName: file.name });
+    try {
+      // first fetch for the proxied url
+      const proxyUrlRes = await fetch(`${PATH}/pdftron-proxy?url=${url}`, {
+        credentials: "include",
+        headers: customHeaders,
+      });
+      if (proxyUrlRes.status === 400) {
+        setFetchError((await proxyUrlRes.json()).errorMessage);
+        setLoading(false);
+      } else {
+        const proxyUrlResJson = await proxyUrlRes.json();
+        let validUrl = url;
+        try {
+          // retrieve validUrl from response
+          validUrl = proxyUrlResJson.validUrl;
+          setValidUrl(validUrl);
+        } catch {
+          console.error("Error in calling `/pdftron-proxy`. Check server log");
         }
-    };
+        const { href, origin, pathname } = new URL(validUrl);
+        const hrefWithoutOrigin = href.split(origin)[1] || pathname;
 
-    return (
-        <div className="WebAudioWrapper">
-            <input
-                type="file"
-                hidden
-                ref={inputFile}
-                onChange={onFileChange}
-                value=""
-            />
-            <div id="webviewer3" ref={viewer3} />
-        </div>
-    );
-}
+        // send back defaultPageDimensions so iframeHeight can be updated dynamically from script injection
+        setResponse({
+          iframeUrl: `${PATH}${hrefWithoutOrigin}`,
+          ...defaultPageDimensions,
+          urlToProxy: validUrl,
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      setFetchError(
+        "Trouble fetching the URL, please make sure the server is running. `cd server && npm start`"
+      );
+    }
+  };
 
-export default WebHtml
+  const downloadPDF = async () => {
+    if (validUrl && response.iframeUrl) {
+      setLoading(true);
+      setFetchError("");
+      try {
+        const downloadPdfRes = await fetch(
+          `${PATH}/pdftron-download?url=${validUrl}`
+        );
+        if (downloadPdfRes.ok) {
+          try {
+            // if sending only buffer from the server: res.send(buffer) then use res.blob() to avoid having the API consumed twice
+            const downloadPdfResJson = await downloadPdfRes.json();
+            const { buffer, pageDimensions } = downloadPdfResJson;
+
+            const blob = new Blob([new Uint8Array(buffer.data)]);
+            await loadDocAndAnnots(blob, pageDimensions);
+          } catch (error) {
+            console.error(error);
+            setFetchError(
+              "Trouble downloading, please refresh and start again."
+            );
+          }
+        } else {
+          setFetchError("Trouble downloading, check server log.");
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setFetchError(
+          "Trouble downloading, please make sure the server is running. `cd server && npm start`"
+        );
+        setLoading(false);
+      }
+    } else {
+      setFetchError("Please enter a valid URL and try again.");
+    }
+  };
+
+  const loadDocAndAnnots = async (blob, pageDimensions) => {
+    setLoading(true);
+    const doc = await instance.Core.createDocument(blob, {
+      extension: "png",
+      pageSizes: [pageDimensions],
+    });
+
+    const xfdf = await instance.Core.documentViewer
+      .getAnnotationManager()
+      .exportAnnotations();
+    const data = await doc.getFileData({ xfdfString: xfdf });
+    const annotationsBlob = new Blob([data], { type: "application/pdf" });
+    const url = URL.createObjectURL(annotationsBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "annotated";
+    a.click();
+    a.remove();
+    setLoading(false);
+    // in case the Blob uses a lot of memory
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  };
+
+  const browseMode = () => {
+    instance && instance.UI.setToolbarGroup("toolbarGroup-View");
+  };
+  return (
+    <WebViewerContext.Provider value={{ instance, setInstance }}>
+      <div className="WebAudioWrapper">
+        <Nav
+          handleSubmit={loadURL}
+          fetchError={fetchError}
+          showSpinner={loading}
+          handleDownload={downloadPDF}
+          browseMode={browseMode}
+        />
+        <Viewer res={response} loadURL={loadURL} />
+      </div>
+    </WebViewerContext.Provider>
+  );
+};
+
+export default WebHtml;
