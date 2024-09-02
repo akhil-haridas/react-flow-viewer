@@ -20,7 +20,7 @@ const initialNodes = [
     id: '1',
     type: 'CustomResizerNode',
     data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
-    position: { x: 70, y: 166 },
+    position: { x: -96.375, y: 343.71875000000006 },
     style: {
       background: '#fff',
       fontSize: 12,
@@ -36,7 +36,7 @@ const initialNodes = [
     id: '2',
     type: 'CustomResizerNode',
     data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
-    position: { x: -1452, y: 1802 },
+    position: { x: -1743.15625, y: 1677.21875 },
     style: {
       background: '#fff',
       fontSize: 12,
@@ -52,7 +52,7 @@ const initialNodes = [
     id: '3',
     type: 'CustomResizerNode',
     data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
-    position: { x: -2650, y: 166 },
+    position: { x: -2332.375, y: 150.875 },
     style: {
       background: '#fff',
       fontSize: 12,
@@ -82,13 +82,12 @@ const FlowWrapper = () => {
         defaultEdges={initialEdges}
         className="react-flow-node-resizer-example"
         onNodesChange={onNodesChange}
-        // minZoom={-100}
+        minZoom={-1}
         maxZoom={4}
         fitView
         nodeTypes={nodeTypes}
       >
         <Background variant={BackgroundVariant.Dots} />
-        <MiniMap />
         <Controls />
       </ReactFlow>
       {/* </div> */}
