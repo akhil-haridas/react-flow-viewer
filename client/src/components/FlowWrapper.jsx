@@ -19,7 +19,7 @@ const initialNodes = [
   {
     id: '1',
     type: 'CustomResizerNode',
-    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
+    data: { label: 'Apryse Viewer', viewer: "PdftronViewer" },
     position: { x: -133.15263157894736, y: 861.9490131578948 },
     style: {
       background: '#fff',
