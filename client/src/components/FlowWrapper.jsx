@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
 const FlowWrapper = () => {
   return (
-    <div>FlowWrapper</div>
-  )
-}
+    <div className="flowWrapper">
+      {/* <div className='viewerWrapper'> */}
+      FlowWrapper
+      {/* </div> */}
+    </div>
+  );
+};
 
-export default FlowWrapper
+export default FlowWrapper;
