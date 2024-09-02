@@ -8,7 +8,7 @@ const controlStyle = {
 };
 
 const CustomNode = ({ data }) => {
-  console.log(data)
+  console.log(data);
   const renderViwer = (type) => {
     switch (type) {
       case "PdftronViewer":
@@ -27,9 +27,28 @@ const CustomNode = ({ data }) => {
         <ResizeIcon />
       </NodeResizeControl>
 
-      <Handle type="target" position={Position.Left} />
+      {/* <Handle type="target" position={Position.Left} /> */}
       <div style={{ height: "100%" }}>
-        <div className="viewerHeader">Darg here</div>
+        <div className="viewerHeader">
+          <span className="drag-handle">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+              <path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z" />
+            </svg>
+            {data.label}
+          </span>
+          <div className="toggleWrapper">
+            <label class="check-1">
+              <input type="checkbox" />
+              <div class="inner"></div>
+              <div class="bullet"></div>
+            </label>
+            <label class="check-1">
+              <input type="checkbox" />
+              <div class="inner"></div>
+              <div class="bullet"></div>
+            </label>
+          </div>
+        </div>
         {renderViwer(data.viewer)}
       </div>
       <Handle type="source" position={Position.Right} />
@@ -39,7 +58,7 @@ const CustomNode = ({ data }) => {
 
 function ResizeIcon() {
   return (
-    <div style={{ height: '20px' }}>
+    <div style={{ height: "20px" }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"

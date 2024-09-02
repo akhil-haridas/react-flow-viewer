@@ -31,6 +31,7 @@ const initialNodes = [
       height: "990px",
       width: "1460px"
     },
+    dragHandle: '.drag-handle',
   },
   {
     id: '2',
@@ -47,6 +48,7 @@ const initialNodes = [
       height: "990px",
       width: "1460px"
     },
+    dragHandle: '.drag-handle',
   },
   {
     id: '3',
@@ -63,6 +65,7 @@ const initialNodes = [
       height: "990px",
       width: "1460px"
     },
+    dragHandle: '.drag-handle',
   },
 ];
 
