@@ -2,3 +2,25 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.flowWrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  /* justify-content: flex-end; */
+  justify-content: center;
+  background-color: #7a7a7aba;
+}
+
+.viewerWrapper {
+  width: 83%;
+  height: 75%;
+  border: 4px solid #fff;
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-right: none;
+  display: flex;
+  flex-wrap: wrap;
+}
