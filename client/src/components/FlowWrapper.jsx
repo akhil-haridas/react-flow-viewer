@@ -74,6 +74,11 @@ const FlowWrapper = () => {
   useEffect(() => {
     console.log(nodes)
   }, [nodes])
+
+  const handleSelectionChange = ({ nodes, edges }) => {
+  console.log('Selected nodes:', nodes);
+  console.log('Selected edges:', edges);
+};
   return (
     <div className="flowWrapper">
       {/* <div className='viewerWrapper'> */}
@@ -86,6 +91,7 @@ const FlowWrapper = () => {
         maxZoom={4}
         fitView
         nodeTypes={nodeTypes}
+        onSelectionChange={handleSelectionChange}
       >
         <Background variant={BackgroundVariant.Dots} />
         <Controls />

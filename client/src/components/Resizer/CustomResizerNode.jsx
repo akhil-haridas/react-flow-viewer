@@ -8,6 +8,7 @@ const controlStyle = {
 };
 
 const CustomNode = ({ data }) => {
+  console.log(data)
   const renderViwer = (type) => {
     switch (type) {
       case "PdftronViewer":
@@ -27,7 +28,10 @@ const CustomNode = ({ data }) => {
       </NodeResizeControl>
 
       <Handle type="target" position={Position.Left} />
-      {renderViwer(data.viewer)}
+      <div style={{ height: "100%" }}>
+        <div className="viewerHeader">Darg here</div>
+        {renderViwer(data.viewer)}
+      </div>
       <Handle type="source" position={Position.Right} />
     </>
   );
@@ -35,7 +39,7 @@ const CustomNode = ({ data }) => {
 
 function ResizeIcon() {
   return (
-    <div style={{height : '20px'}}>
+    <div style={{ height: '20px' }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
