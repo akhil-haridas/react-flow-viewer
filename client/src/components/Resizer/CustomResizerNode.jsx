@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Handle, Position, NodeResizeControl } from "@xyflow/react";
 import PdftronViewer from "../Pdftron/PdftronViewer";
 
@@ -8,7 +8,8 @@ const controlStyle = {
 };
 
 const CustomNode = ({ data }) => {
-  console.log(data);
+  const [isResize, setIsResize] = useState(false)
+  
   const renderViwer = (type) => {
     switch (type) {
       case "PdftronViewer":
@@ -21,10 +22,15 @@ const CustomNode = ({ data }) => {
         return null;
     }
   };
+
+  const onToggleCheckbox = (tool, e) => {
+    if(tool === "resize") setIsResize(e.target.checked)
+  }
+
   return (
     <>
       <NodeResizeControl style={controlStyle} minWidth={100} minHeight={50}>
-        <ResizeIcon />
+        {isResize && <ResizeIcon />}
       </NodeResizeControl>
 
       {/* <Handle type="target" position={Position.Left} /> */}
@@ -38,12 +44,12 @@ const CustomNode = ({ data }) => {
           </span>
           <div className="toggleWrapper">
             <label class="check-1">
-              <input type="checkbox" />
+              <input type="checkbox" value={isResize} onChange={(e) => onToggleCheckbox("resize",e)} />
               <div class="inner"></div>
               <div class="bullet"></div>
             </label>
             <label class="check-1">
-              <input type="checkbox" />
+              <input type="checkbox" onChange={() => onToggleCheckbox("workmode")} />
               <div class="inner"></div>
               <div class="bullet"></div>
             </label>

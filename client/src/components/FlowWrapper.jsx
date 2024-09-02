@@ -19,7 +19,7 @@ const initialNodes = [
   {
     id: '1',
     type: 'CustomResizerNode',
-    data: { label: 'Apryse Viewer', viewer: "PdftronViewer" },
+    data: { label: 'Apryse Viewer', viewer: "PdftronViewer", resize: false },
     position: { x: -133.15263157894736, y: 861.9490131578948 },
     style: {
       background: '#fff',
@@ -36,7 +36,7 @@ const initialNodes = [
   {
     id: '2',
     type: 'CustomResizerNode',
-    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
+    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer", resize: false },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
       background: '#fff',
@@ -53,7 +53,7 @@ const initialNodes = [
   {
     id: '3',
     type: 'CustomResizerNode',
-    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
+    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer", resize: false },
     position: { x: -2332.375, y: 150.875 },
     style: {
       background: '#fff',
@@ -79,9 +79,9 @@ const FlowWrapper = () => {
   }, [nodes])
 
   const handleSelectionChange = ({ nodes, edges }) => {
-  console.log('Selected nodes:', nodes);
-  console.log('Selected edges:', edges);
-};
+    console.log('Selected nodes:', nodes);
+    console.log('Selected edges:', edges);
+  };
   return (
     <div className="flowWrapper">
       {/* <div className='viewerWrapper'> */}
