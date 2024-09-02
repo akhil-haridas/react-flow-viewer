@@ -20,7 +20,7 @@ const initialNodes = [
     id: '1',
     type: 'CustomResizerNode',
     data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
-    position: { x: -96.375, y: 343.71875000000006 },
+    position: { x: -133.15263157894736, y: 861.9490131578948 },
     style: {
       background: '#fff',
       fontSize: 12,
@@ -36,7 +36,7 @@ const initialNodes = [
     id: '2',
     type: 'CustomResizerNode',
     data: { label: 'Custom Resize Icon', viewer: "PdftronViewer" },
-    position: { x: -1743.15625, y: 1677.21875 },
+    position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
       background: '#fff',
       fontSize: 12,
