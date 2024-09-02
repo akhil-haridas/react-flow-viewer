@@ -9,7 +9,7 @@ const controlStyle = {
 
 const CustomNode = ({ data }) => {
   const [isResize, setIsResize] = useState(false)
-  
+
   const renderViwer = (type) => {
     switch (type) {
       case "PdftronViewer":
@@ -24,7 +24,7 @@ const CustomNode = ({ data }) => {
   };
 
   const onToggleCheckbox = (tool, e) => {
-    if(tool === "resize") setIsResize(e.target.checked)
+    if (tool === "resize") setIsResize(e.target.checked)
   }
 
   return (
@@ -33,7 +33,7 @@ const CustomNode = ({ data }) => {
         {isResize && <ResizeIcon />}
       </NodeResizeControl>
 
-      {/* <Handle type="target" position={Position.Left} /> */}
+      <Handle type="target" position={Position.Left} />
       <div style={{ height: "100%" }}>
         <div className="viewerHeader">
           <span className="drag-handle">
@@ -44,12 +44,7 @@ const CustomNode = ({ data }) => {
           </span>
           <div className="toggleWrapper">
             <label class="check-1">
-              <input type="checkbox" value={isResize} onChange={(e) => onToggleCheckbox("resize",e)} />
-              <div class="inner"></div>
-              <div class="bullet"></div>
-            </label>
-            <label class="check-1">
-              <input type="checkbox" onChange={() => onToggleCheckbox("workmode")} />
+              <input type="checkbox" value={isResize} onChange={(e) => onToggleCheckbox("resize", e)} />
               <div class="inner"></div>
               <div class="bullet"></div>
             </label>

@@ -8,8 +8,8 @@ body {
   height: 100vh;
   display: flex;
   align-items: center;
-  /* justify-content: flex-end; */
-  justify-content: center;
+  justify-content: flex-end;
+  /* justify-content: center; */
   /* background-color: #7a7a7aba; */
 }
 
@@ -65,6 +65,10 @@ label>input[type=checkbox] {
   height: 30px;
   border-radius: 50px;
   position: relative;
+}
+
+.webviewer > .check-1 {
+  position: absolute;
 }
 
 .check-1 .inner {

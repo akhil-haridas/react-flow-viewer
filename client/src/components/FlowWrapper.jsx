@@ -6,10 +6,12 @@ import {
   BackgroundVariant,
   Controls,
   useNodesState,
-} from '@xyflow/react';
+} from "@xyflow/react";
 
-import '@xyflow/react/dist/style.css';
+import "@xyflow/react/dist/style.css";
 import CustomResizerNode from "./Resizer/CustomResizerNode";
+import { useWorkMode } from "../context/WorkModeContext";
+import PdftronViewer from "./Pdftron/PdftronViewer";
 
 const nodeTypes = {
   CustomResizerNode,
@@ -17,55 +19,63 @@ const nodeTypes = {
 
 const initialNodes = [
   {
-    id: '1',
-    type: 'CustomResizerNode',
-    data: { label: 'Apryse Viewer', viewer: "PdftronViewer", resize: false },
+    id: "1",
+    type: "CustomResizerNode",
+    data: { label: "Apryse Viewer", viewer: "PdftronViewer", resize: false },
     position: { x: -133.15263157894736, y: 861.9490131578948 },
     style: {
-      background: '#fff',
+      background: "#fff",
       fontSize: 12,
-      border: '1px solid black',
+      border: "1px solid black",
       padding: 5,
       borderRadius: 15,
       // height: 100,
       height: "990px",
-      width: "1460px"
+      width: "1460px",
     },
-    dragHandle: '.drag-handle',
+    dragHandle: ".drag-handle",
   },
   {
-    id: '2',
-    type: 'CustomResizerNode',
-    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer", resize: false },
+    id: "2",
+    type: "CustomResizerNode",
+    data: {
+      label: "Custom Resize Icon",
+      viewer: "PdftronViewer",
+      resize: false,
+    },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
-      background: '#fff',
+      background: "#fff",
       fontSize: 12,
-      border: '1px solid black',
+      border: "1px solid black",
       padding: 5,
       borderRadius: 15,
       // height: 100,
       height: "990px",
-      width: "1460px"
+      width: "1460px",
     },
-    dragHandle: '.drag-handle',
+    dragHandle: ".drag-handle",
   },
   {
-    id: '3',
-    type: 'CustomResizerNode',
-    data: { label: 'Custom Resize Icon', viewer: "PdftronViewer", resize: false },
+    id: "3",
+    type: "CustomResizerNode",
+    data: {
+      label: "Custom Resize Icon",
+      viewer: "PdftronViewer",
+      resize: false,
+    },
     position: { x: -2332.375, y: 150.875 },
     style: {
-      background: '#fff',
+      background: "#fff",
       fontSize: 12,
-      border: '1px solid black',
+      border: "1px solid black",
       padding: 5,
       borderRadius: 15,
       // height: 100,
       height: "990px",
-      width: "1460px"
+      width: "1460px",
     },
-    dragHandle: '.drag-handle',
+    dragHandle: ".drag-handle",
   },
 ];
 
@@ -73,33 +83,39 @@ const initialEdges = [];
 
 const FlowWrapper = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const { isWorkMode } = useWorkMode();
 
   useEffect(() => {
-    console.log(nodes)
-  }, [nodes])
-
+    console.log(nodes);
+  }, [nodes]);
+  console.log(isWorkMode);
   const handleSelectionChange = ({ nodes, edges }) => {
-    console.log('Selected nodes:', nodes);
-    console.log('Selected edges:', edges);
+    console.log("Selected nodes:", nodes);
+    console.log("Selected edges:", edges);
   };
   return (
     <div className="flowWrapper">
-      {/* <div className='viewerWrapper'> */}
-      <ReactFlow
-        defaultNodes={initialNodes}
-        defaultEdges={initialEdges}
-        className="react-flow-node-resizer-example"
-        onNodesChange={onNodesChange}
-        minZoom={-1}
-        maxZoom={4}
-        fitView
-        nodeTypes={nodeTypes}
-        onSelectionChange={handleSelectionChange}
-      >
-        <Background variant={BackgroundVariant.Dots} />
-        <Controls />
-      </ReactFlow>
-      {/* </div> */}
+      <div className='viewerWrapper'>
+        {!isWorkMode ? (
+          <ReactFlow
+            defaultNodes={initialNodes}
+            defaultEdges={initialEdges}
+            className="react-flow-node-resizer-example"
+            onNodesChange={onNodesChange}
+            minZoom={-1}
+            maxZoom={4}
+            fitView
+            nodeTypes={nodeTypes}
+            onSelectionChange={handleSelectionChange}
+          >
+            <Background variant={BackgroundVariant.Dots} />
+            <Controls />
+          </ReactFlow>
+        ) : (
+          <PdftronViewer />
+        )}
+
+      </div>
     </div>
   );
 };

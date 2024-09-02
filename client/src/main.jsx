@@ -1,9 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
+import { WorkModeProvider } from './context/WorkModeContext.jsx'; 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <WorkModeProvider>
+      <App />
+    </WorkModeProvider>
   </StrictMode>,
 )

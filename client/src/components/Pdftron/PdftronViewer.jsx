@@ -1,8 +1,10 @@
 import WebViewer from '@pdftron/webviewer';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useWorkMode } from '../../context/WorkModeContext';
 
 const PdftronViewer = () => {
     const [instance, setInstance] = useState(null)
+    const { isWorkMode, setIsWorkMode } = useWorkMode();
     const viewer = useRef(null);
 
     const initializeViewer = useCallback(async () => {
@@ -27,12 +29,22 @@ const PdftronViewer = () => {
         }
     }, []);
 
+    const onToggleCheckbox = (e) => {
+        setIsWorkMode(e.target.checked);
+    }
+
     useEffect(() => {
         initializeViewer()
     }, [initializeViewer]);
 
     return (
-        <div className="webviewer" ref={viewer} style={{ height: "95%", width:"100%" }}></div>
+        <div className="webviewer" ref={viewer} style={{ height: "95%", width: "100%" }}>
+            <label class="check-1">
+                <input type="checkbox" defaultValue={isWorkMode} onChange={onToggleCheckbox} />
+                <div class="inner"></div>
+                <div class="bullet"></div>
+            </label>
+        </div>
     );
 }
 
