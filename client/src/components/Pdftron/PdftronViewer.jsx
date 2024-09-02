@@ -16,7 +16,7 @@ const PdftronViewer = () => {
                     {
                         path: "/webviewer",
                         licenseKey: "demo:1721108165987:7f9a5c7b03000000007463b7c7a77a620e9c805eedc37b89008b5843ac",
-                        // initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf',
+                        initialDoc: 'https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf',
                     },
                     viewer.current
                 );
@@ -31,14 +31,8 @@ const PdftronViewer = () => {
         initializeViewer()
     }, [initializeViewer]);
 
-    useEffect(() => {
-        if (instance) {
-            instance.UI.loadDocument("https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf");
-        }
-    }, [instance]);
-
     return (
-        <div className="webviewer" ref={viewer} style={{ height: "100%", width:"100%" }}></div>
+        <div className="webviewer" ref={viewer} style={{ height: "95%", width:"100%" }}></div>
     );
 }
 

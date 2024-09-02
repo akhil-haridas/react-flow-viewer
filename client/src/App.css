@@ -24,3 +24,15 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
+
+.viewerHeader{
+  height: 5%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.react-flow__handle{
+  width: 20px !important;
+  height: 20px !important;
+}
