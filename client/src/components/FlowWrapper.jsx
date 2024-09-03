@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -6,6 +6,9 @@ import {
   BackgroundVariant,
   Controls,
   useNodesState,
+  useReactFlow,
+  useEdgesState,
+  addEdge,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -83,14 +86,34 @@ const initialNodes = [
 ];
 
 const initialEdges = [];
+let id = 3;
+const getId = () => `${id++}`;
 
 const FlowWrapper = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const reactFlowWrapper = useRef(null);
+  const connectingNodeId = useRef(null);
+
+  const loadNodes = () => {
+    const storedNodes = localStorage.getItem("flowNodes");
+    return storedNodes ? JSON.parse(storedNodes) : initialNodes;
+  };
+
+  const loadEdges = () => {
+    const storedEdges = localStorage.getItem("flowEdges");
+    return storedEdges ? JSON.parse(storedEdges) : initialEdges;
+  };
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(loadNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(loadEdges);
+
+  const { screenToFlowPosition } = useReactFlow();
   const { isWorkMode, viewerType } = useWorkMode();
 
   useEffect(() => {
     console.log(nodes);
-  }, [nodes]);
+    localStorage.setItem("flowNodes", JSON.stringify(nodes));
+    localStorage.setItem("flowEdges", JSON.stringify(edges));
+  }, [nodes, edges]);
 
   const handleSelectionChange = ({ nodes, edges }) => {
     console.log("Selected nodes:", nodes);
@@ -116,13 +139,67 @@ const FlowWrapper = () => {
     }
   };
 
+  const onConnect = useCallback((params) => {
+    // reset the start node on connections
+    connectingNodeId.current = null;
+    setEdges((eds) => addEdge(params, eds));
+  }, []);
+
+  const onConnectStart = useCallback((_, { nodeId }) => {
+    connectingNodeId.current = nodeId;
+  }, []);
+
+  const onConnectEnd = useCallback(
+    (event) => {
+      if (!connectingNodeId.current) return;
+
+      const targetIsPane = event.target.classList.contains('react-flow__pane');
+
+      if (targetIsPane) {
+        const id = getId();
+        const newNode = {
+          position: screenToFlowPosition({
+            x: event.clientX,
+            y: event.clientY,
+          }),
+          id: getId(),
+          type: "CustomResizerNode",
+          data: {
+            label: "Potree Viewer",
+            viewer: "PdftronViewer",
+            resize: false,
+          },
+          style: {
+            background: "#fff",
+            fontSize: 12,
+            border: "1px solid black",
+            padding: 5,
+            borderRadius: 15,
+            height: "990px",
+            width: "1460px",
+          },
+          dragHandle: ".drag-handle",
+
+        };
+
+        setNodes((nds) => nds.concat(newNode));
+        setEdges((eds) =>
+          eds.concat({ id, source: connectingNodeId.current, target: id }),
+        );
+      }
+    },
+    [screenToFlowPosition],
+  );
+
   return (
     <div className="flowWrapper">
-      <div className="viewerWrapper">
+      <div className="viewerWrapper" ref={reactFlowWrapper}>
         {!isWorkMode ? (
           <ReactFlow
             defaultNodes={initialNodes}
             defaultEdges={initialEdges}
+            nodes={nodes}
+            edges={edges}
             className="react-flow-node-resizer-example"
             onNodesChange={onNodesChange}
             minZoom={0}
@@ -130,6 +207,9 @@ const FlowWrapper = () => {
             fitView
             nodeTypes={nodeTypes}
             onSelectionChange={handleSelectionChange}
+            onConnect={onConnect}
+            onConnectStart={onConnectStart}
+            onConnectEnd={onConnectEnd}
           >
             <Background variant={BackgroundVariant.Dots} />
             <Controls />
