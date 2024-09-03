@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
 
-// Create a context with default value `false`
 const WorkModeContext = createContext();
 
 export const WorkModeProvider = ({ children }) => {
@@ -13,5 +12,4 @@ export const WorkModeProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use the WorkModeContext
 export const useWorkMode = () => useContext(WorkModeContext);

@@ -88,7 +88,7 @@ const FlowWrapper = () => {
   useEffect(() => {
     console.log(nodes);
   }, [nodes]);
-  console.log(isWorkMode);
+
   const handleSelectionChange = ({ nodes, edges }) => {
     console.log("Selected nodes:", nodes);
     console.log("Selected edges:", edges);

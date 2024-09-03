@@ -8,10 +8,7 @@ const PdftronViewer = () => {
     const viewer = useRef(null);
 
     const initializeViewer = useCallback(async () => {
-        console.log(instance)
         if (instance) return
-        console.log('instance')
-
         if (viewer.current) {
             try {
                 const webinstance = await WebViewer(
@@ -39,10 +36,10 @@ const PdftronViewer = () => {
 
     return (
         <div className="webviewer" ref={viewer} style={{ height: "95%", width: "100%" }}>
-            <label class="check-1">
+            <label className="check-1">
                 <input type="checkbox" checked={isWorkMode} onChange={onToggleCheckbox} />
-                <div class="inner"></div>
-                <div class="bullet"></div>
+                <div className="inner"></div>
+                <div className="bullet"></div>
             </label>
         </div>
     );

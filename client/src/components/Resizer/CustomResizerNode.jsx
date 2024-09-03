@@ -43,10 +43,10 @@ const CustomNode = ({ data }) => {
             {data.label}
           </span>
           <div className="toggleWrapper">
-            <label class="check-1">
+            <label className="check-1">
               <input type="checkbox" value={isResize} onChange={(e) => onToggleCheckbox("resize", e)} />
-              <div class="inner"></div>
-              <div class="bullet"></div>
+              <div className="inner"></div>
+              <div className="bullet"></div>
             </label>
           </div>
         </div>
