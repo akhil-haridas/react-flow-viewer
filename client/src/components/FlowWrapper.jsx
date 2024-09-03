@@ -180,7 +180,7 @@ console.log("selectedViewer::",selectedViewer)
             border: "1px solid black",
             padding: 5,
             borderRadius: 15,
-            height: "990px",
+            height: selectedViewer === "Resources" ? "100%" : "990px",
             width: "1460px",
           },
           dragHandle: ".drag-handle",
