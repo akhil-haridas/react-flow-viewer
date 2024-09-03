@@ -13,6 +13,7 @@ import CustomResizerNode from "./Resizer/CustomResizerNode";
 import { useWorkMode } from "../context/WorkModeContext";
 import PdftronViewer from "./Pdftron/PdftronViewer";
 import IfcViewer from "./Xbim/IfcViewer";
+import PotreeViewer from "./Potree/PotreeViewer";
 
 const nodeTypes = {
   CustomResizerNode,
@@ -43,7 +44,7 @@ const initialNodes = [
       label: "IFC Viewer",
       viewer: "IfcViewer",
       resize: false,
-      modelPath:"/models/SampleHouseV3.wexbim"
+      modelPath: "/models/SampleHouseV3.wexbim",
     },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
@@ -85,7 +86,7 @@ const initialEdges = [];
 
 const FlowWrapper = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const { isWorkMode } = useWorkMode();
+  const { isWorkMode, viewerType } = useWorkMode();
 
   useEffect(() => {
     console.log(nodes);
@@ -95,9 +96,29 @@ const FlowWrapper = () => {
     console.log("Selected nodes:", nodes);
     console.log("Selected edges:", edges);
   };
+
+  const renderWorkMode = () => {
+    switch (viewerType) {
+      case "PdftronViewer":
+        return <PdftronViewer />;
+      case "PotreeViewer":
+        return (
+          <PotreeViewer
+            cloudUrl={
+              "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"
+            }
+          />
+        );
+      case "IfcViewer":
+        return <IfcViewer modelPath={"/models/SampleHouseV3.wexbim"} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flowWrapper">
-      <div className='viewerWrapper'>
+      <div className="viewerWrapper">
         {!isWorkMode ? (
           <ReactFlow
             defaultNodes={initialNodes}
@@ -114,9 +135,8 @@ const FlowWrapper = () => {
             <Controls />
           </ReactFlow>
         ) : (
-          <IfcViewer modelPath={"/models/SampleHouseV3.wexbim"} />
+          <>{renderWorkMode()}</>
         )}
-
       </div>
     </div>
   );

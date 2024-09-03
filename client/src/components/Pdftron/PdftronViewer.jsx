@@ -4,7 +4,7 @@ import { useWorkMode } from '../../context/WorkModeContext';
 
 const PdftronViewer = () => {
     const [instance, setInstance] = useState(null)
-    const { isWorkMode, setIsWorkMode } = useWorkMode();
+    const { isWorkMode, setIsWorkMode,viewerType, setViewerType } = useWorkMode();
     const viewer = useRef(null);
 
     const initializeViewer = useCallback(async () => {
@@ -28,6 +28,7 @@ const PdftronViewer = () => {
 
     const onToggleCheckbox = (e) => {
         setIsWorkMode(e.target.checked);
+        setViewerType("PdftronViewer")
     }
 
     useEffect(() => {

@@ -7,7 +7,7 @@ import {
 import React, { useCallback, useEffect } from "react";
 import { useWorkMode } from "../../context/WorkModeContext";
 const IfcViewer = React.memo(({ modelPath }) => {
-  const { isWorkMode, setIsWorkMode } = useWorkMode();
+  const { isWorkMode, setIsWorkMode,viewerType, setViewerType  } = useWorkMode();
 
   const initializeViewer = useCallback((model) => {
     const viewer = new Viewer("xBIM-viewer");
@@ -41,6 +41,7 @@ const IfcViewer = React.memo(({ modelPath }) => {
 
   const onToggleCheckbox = (e) => {
     setIsWorkMode(e.target.checked);
+    setViewerType("IfcViewer")
   }
 
   return (
