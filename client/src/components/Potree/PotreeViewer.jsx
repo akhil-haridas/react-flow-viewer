@@ -66,7 +66,7 @@ const PotreeViewer = ({ cloudUrl }) => {
     >
       <label
         className="check-1"
-        style={{ position: "absolute", left: "100px", zIndex: "99" }}
+        style={{ position: "absolute", left: "0", zIndex: "101" }}
       >
         <input
           type="checkbox"
