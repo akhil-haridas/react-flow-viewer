@@ -103,7 +103,8 @@ const FlowWrapper = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(loadNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(loadEdges);
 
-  const [nodeCount, setNodeCount] = useState(0)
+  const [nodeCount, setNodeCount] = useState(nodes.length);
+  const [selectedViewer, setSelectedViewer] = useState("Resources");
 
   const { screenToFlowPosition } = useReactFlow();
   const { isWorkMode, viewerType } = useWorkMode();
@@ -111,7 +112,7 @@ const FlowWrapper = () => {
   useEffect(() => {
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
     localStorage.setItem("flowEdges", JSON.stringify(edges));
-    setNodeCount(nodes.length)
+    setNodeCount(nodes.length);
   }, [nodes, edges]);
 
   const handleSelectionChange = ({ nodes, edges }) => {
@@ -137,10 +138,11 @@ const FlowWrapper = () => {
         return null;
     }
   };
-
+console.log(nodeCount,nodes.length)
   const getId = () => {
-    return `${nodeCount + 2}`
-  }
+    console.log("nodeCount + 2 ::", nodeCount + 2,nodeCount)
+    return `${nodeCount + 2}`;
+  };
 
   const onConnect = useCallback((params) => {
     // reset the start node on connections
@@ -151,12 +153,12 @@ const FlowWrapper = () => {
   const onConnectStart = useCallback((_, { nodeId }) => {
     connectingNodeId.current = nodeId;
   }, []);
-
+console.log("selectedViewer::",selectedViewer)
   const onConnectEnd = useCallback(
     (event) => {
       if (!connectingNodeId.current) return;
 
-      const targetIsPane = event.target.classList.contains('react-flow__pane');
+      const targetIsPane = event.target.classList.contains("react-flow__pane");
 
       if (targetIsPane) {
         const id = getId();
@@ -168,8 +170,8 @@ const FlowWrapper = () => {
           id: getId(),
           type: "CustomResizerNode",
           data: {
-            label: "Potree Viewer",
-            viewer: "PdftronViewer",
+            label: selectedViewer,
+            viewer: selectedViewer,
             resize: false,
           },
           style: {
@@ -182,21 +184,36 @@ const FlowWrapper = () => {
             width: "1460px",
           },
           dragHandle: ".drag-handle",
-
         };
 
         setNodes((nds) => nds.concat(newNode));
         setEdges((eds) =>
-          eds.concat({ id, source: connectingNodeId.current, target: id }),
+          eds.concat({ id, source: connectingNodeId.current, target: id })
         );
       }
     },
-    [screenToFlowPosition],
+    [screenToFlowPosition,selectedViewer]
   );
+
+  const handleViewerChange = (event) => {
+    console.log(event.target.value,"EVALUE")
+    setSelectedViewer(event.target.value);
+  };
 
   return (
     <div className="flowWrapper">
       <div className="viewerWrapper" ref={reactFlowWrapper}>
+        <div>
+          <select
+            value={selectedViewer || "Resources"}
+            onChange={handleViewerChange}
+          >
+            <option value="PdftronViewer">Pdftron Viewer</option>
+            <option value="IfcViewer">IFC Viewer</option>
+            <option value="PotreeViewer">Potree Viewer</option>
+            <option value="Resources">Resources</option>
+          </select>
+        </div>
         {!isWorkMode ? (
           <ReactFlow
             defaultNodes={initialNodes}

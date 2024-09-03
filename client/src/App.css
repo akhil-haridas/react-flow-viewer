@@ -28,7 +28,6 @@ body {
 }
 
 .viewerHeader {
-  height: 5%;
   width: 100%;
   display: flex;
   align-items: center;

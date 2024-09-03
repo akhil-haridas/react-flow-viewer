@@ -6,8 +6,9 @@ import {
 } from "@xbim/viewer";
 import React, { useCallback, useEffect } from "react";
 import { useWorkMode } from "../../context/WorkModeContext";
-const IfcViewer = React.memo(({ modelPath }) => {
-  const { isWorkMode, setIsWorkMode,viewerType, setViewerType  } = useWorkMode();
+const modelPath = "/models/SampleHouseV3.wexbim"
+const IfcViewer = React.memo(() => {
+  const { isWorkMode, setIsWorkMode, viewerType, setViewerType } = useWorkMode();
 
   const initializeViewer = useCallback((model) => {
     const viewer = new Viewer("xBIM-viewer");

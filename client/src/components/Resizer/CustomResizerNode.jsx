@@ -3,6 +3,7 @@ import { Handle, Position, NodeResizeControl } from "@xyflow/react";
 import PdftronViewer from "../Pdftron/PdftronViewer";
 import IfcViewer from "../Xbim/IfcViewer";
 import PotreeViewer from "../Potree/PotreeViewer";
+import Resources from "../Resources/Resources";
 
 const controlStyle = {
   background: "transparent",
@@ -10,6 +11,7 @@ const controlStyle = {
 };
 
 const CustomNode = ({ data }) => {
+  console.log("DATA:",data)
   const [isResize, setIsResize] = useState(false)
 
   const renderViwer = (type) => {
@@ -20,6 +22,8 @@ const CustomNode = ({ data }) => {
         return <PotreeViewer cloudUrl={"http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"} />
       case "IfcViewer":
         return <IfcViewer modelPath={data.modelPath} />;
+      case "Resources":
+        return <Resources />;
       default:
         return null;
     }
