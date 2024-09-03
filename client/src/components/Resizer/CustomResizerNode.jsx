@@ -2,6 +2,7 @@ import { memo, useState } from "react";
 import { Handle, Position, NodeResizeControl } from "@xyflow/react";
 import PdftronViewer from "../Pdftron/PdftronViewer";
 import IfcViewer from "../Xbim/IfcViewer";
+import PotreeViewer from "../Potree/PotreeViewer";
 
 const controlStyle = {
   background: "transparent",
@@ -16,7 +17,7 @@ const CustomNode = ({ data }) => {
       case "PdftronViewer":
         return <PdftronViewer />;
       case "PotreeViewer":
-        return <PotreeViewer />;
+        return <PotreeViewer cloudUrl={"http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"} />
       case "IfcViewer":
         return <IfcViewer modelPath={data.modelPath} />;
       default:

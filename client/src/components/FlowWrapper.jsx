@@ -40,7 +40,7 @@ const initialNodes = [
     id: "2",
     type: "CustomResizerNode",
     data: {
-      label: "Custom Resize Icon",
+      label: "IFC Viewer",
       viewer: "IfcViewer",
       resize: false,
       modelPath:"/models/SampleHouseV3.wexbim"
@@ -62,8 +62,8 @@ const initialNodes = [
     id: "3",
     type: "CustomResizerNode",
     data: {
-      label: "Custom Resize Icon",
-      viewer: "PdftronViewer",
+      label: "Potree Viewer",
+      viewer: "PotreeViewer",
       resize: false,
     },
     position: { x: -2332.375, y: 150.875 },
