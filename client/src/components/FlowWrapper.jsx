@@ -102,8 +102,8 @@ const FlowWrapper = () => {
             defaultEdges={initialEdges}
             className="react-flow-node-resizer-example"
             onNodesChange={onNodesChange}
-            minZoom={-1}
-            maxZoom={4}
+            minZoom={0}
+            // maxZoom={4}
             fitView
             nodeTypes={nodeTypes}
             onSelectionChange={handleSelectionChange}
