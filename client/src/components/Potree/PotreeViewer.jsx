@@ -4,7 +4,8 @@ import { useWorkMode } from "../../context/WorkModeContext";
 const Potree = window.Potree;
 
 const PotreeViewer = ({ cloudUrl }) => {
-  const { isWorkMode, setIsWorkMode, viewerType, setViewerType } = useWorkMode();
+  const { isWorkMode, setIsWorkMode, viewerType, setViewerType } =
+    useWorkMode();
 
   const potreeContainerDiv = useRef(null);
   const viewerInitialized = useRef(false);
@@ -49,8 +50,8 @@ const PotreeViewer = ({ cloudUrl }) => {
 
   const onToggleCheckbox = (e) => {
     setIsWorkMode(e.target.checked);
-    setViewerType("PotreeViewer")
-  }
+    setViewerType("PotreeViewer");
+  };
 
   return (
     <div
@@ -60,15 +61,28 @@ const PotreeViewer = ({ cloudUrl }) => {
         width: "98%",
         height: "94%",
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
-      <label className="check-1" style={{ position: "absolute", left: '0', zIndex: "99" }}>
-        <input type="checkbox" checked={isWorkMode} onChange={onToggleCheckbox} />
+      <label
+        className="check-1"
+        style={{ position: "absolute", left: "100px", zIndex: "99" }}
+      >
+        <input
+          type="checkbox"
+          checked={isWorkMode}
+          onChange={onToggleCheckbox}
+        />
         <div className="inner"></div>
         <div className="bullet"></div>
       </label>
       <div id="potree_render_area" ref={potreeContainerDiv}></div>
+      {isWorkMode && (
+        <div
+          id="potree_sidebar_container"
+          style={{ left: "0", zIndex: "100" }}
+        ></div>
+      )}
     </div>
   );
 };
