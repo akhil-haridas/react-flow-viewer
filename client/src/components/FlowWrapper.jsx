@@ -12,6 +12,7 @@ import "@xyflow/react/dist/style.css";
 import CustomResizerNode from "./Resizer/CustomResizerNode";
 import { useWorkMode } from "../context/WorkModeContext";
 import PdftronViewer from "./Pdftron/PdftronViewer";
+import IfcViewer from "./Xbim/IfcViewer";
 
 const nodeTypes = {
   CustomResizerNode,
@@ -40,8 +41,9 @@ const initialNodes = [
     type: "CustomResizerNode",
     data: {
       label: "Custom Resize Icon",
-      viewer: "PdftronViewer",
+      viewer: "IfcViewer",
       resize: false,
+      modelPath:"/models/SampleHouseV3.wexbim"
     },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
@@ -112,7 +114,7 @@ const FlowWrapper = () => {
             <Controls />
           </ReactFlow>
         ) : (
-          <PdftronViewer />
+          <IfcViewer modelPath={"/models/SampleHouseV3.wexbim"} />
         )}
 
       </div>

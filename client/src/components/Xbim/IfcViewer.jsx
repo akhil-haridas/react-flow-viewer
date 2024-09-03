@@ -1,9 +1,57 @@
-import React from 'react'
+import {
+  Grid,
+  LoaderOverlay,
+  ViewType,
+  Viewer,
+} from "@xbim/viewer";
+import React, { useCallback, useEffect } from "react";
+import { useWorkMode } from "../../context/WorkModeContext";
+const IfcViewer = React.memo(({ modelPath }) => {
+  const { isWorkMode, setIsWorkMode } = useWorkMode();
 
-const IfcViewer = () => {
+  const initializeViewer = useCallback((model) => {
+    const viewer = new Viewer("xBIM-viewer");
+    const overlay = new LoaderOverlay();
+    viewer.addPlugin(overlay);
+    overlay.show();
+    viewer.readerOptions.orderGeometryBySize = true;
+    viewer.cameraProperties.fov = 53;
+    // viewer.background = [0, 0, 0, 0];
+    viewer.hoverPickEnabled = true;
+    viewer.highlightingColour = [0, 0, 225, 200];
+
+    var grid = new Grid();
+    window.grid = grid;
+    grid.zFactor = 20;
+    grid.colour = [0, 0, 0, 0.8];
+
+    viewer.addPlugin(grid);
+    viewer.load(model);
+
+    viewer.on("loaded", () => {
+      viewer.start();
+      overlay.hide();
+      viewer.show(ViewType.DEFAULT, undefined, undefined, false);
+    });
+  }, []);
+
+  useEffect(() => {
+    initializeViewer(modelPath);
+  }, [initializeViewer, modelPath]);
+
+  const onToggleCheckbox = (e) => {
+    setIsWorkMode(e.target.checked);
+  }
+
   return (
-    <div>IfcViewer</div>
+    <>
+      <label className="check-1" style={{ position: "absolute" }}>
+        <input type="checkbox" checked={isWorkMode} onChange={onToggleCheckbox} />
+        <div className="inner"></div>
+        <div className="bullet"></div>
+      </label>
+      <canvas id="xBIM-viewer" style={{ width: "100%", height: "95%" }}></canvas>
+    </>
   )
-}
-
-export default IfcViewer
+});
+export default IfcViewer;

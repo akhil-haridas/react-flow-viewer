@@ -1,6 +1,7 @@
 import { memo, useState } from "react";
 import { Handle, Position, NodeResizeControl } from "@xyflow/react";
 import PdftronViewer from "../Pdftron/PdftronViewer";
+import IfcViewer from "../Xbim/IfcViewer";
 
 const controlStyle = {
   background: "transparent",
@@ -17,7 +18,7 @@ const CustomNode = ({ data }) => {
       case "PotreeViewer":
         return <PotreeViewer />;
       case "IfcViewer":
-        return <IfcViewer />;
+        return <IfcViewer modelPath={data.modelPath} />;
       default:
         return null;
     }
