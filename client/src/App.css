@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  background: #ecf0f1;
 }
 
 .flowWrapper {
@@ -23,6 +24,7 @@ body {
   border-right: none;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .viewerHeader {
@@ -44,11 +46,11 @@ body {
   box-sizing: border-box;
 }
 
-html,
+/* html,
 body {
   height: 90%;
   background: #ecf0f1;
-}
+} */
 
 label {
   display: block;

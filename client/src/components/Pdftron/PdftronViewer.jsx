@@ -35,7 +35,7 @@ const PdftronViewer = () => {
     }, [initializeViewer]);
 
     return (
-        <div className="webviewer" ref={viewer} style={{ height: "100%", width: "100%" }}>
+        <div className="webviewer" ref={viewer} style={{ height: "95%", width: "100%" }}>
             <label className="check-1">
                 <input type="checkbox" checked={isWorkMode} onChange={onToggleCheckbox} />
                 <div className="inner"></div>
