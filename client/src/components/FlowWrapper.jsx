@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -86,8 +86,6 @@ const initialNodes = [
 ];
 
 const initialEdges = [];
-let id = 3;
-const getId = () => `${id++}`;
 
 const FlowWrapper = () => {
   const reactFlowWrapper = useRef(null);
@@ -106,13 +104,15 @@ const FlowWrapper = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(loadNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(loadEdges);
 
+  const [nodeCount, setNodeCount] = useState(0)
+
   const { screenToFlowPosition } = useReactFlow();
   const { isWorkMode, viewerType } = useWorkMode();
 
   useEffect(() => {
-    console.log(nodes);
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
     localStorage.setItem("flowEdges", JSON.stringify(edges));
+    setNodeCount(nodes.length)
   }, [nodes, edges]);
 
   const handleSelectionChange = ({ nodes, edges }) => {
@@ -138,6 +138,10 @@ const FlowWrapper = () => {
         return null;
     }
   };
+
+  const getId = () => {
+    return `${nodeCount + 2}`
+  }
 
   const onConnect = useCallback((params) => {
     // reset the start node on connections
