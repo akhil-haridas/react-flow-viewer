@@ -38,7 +38,7 @@ const initialNodes = [
   },
   {
     id: "2",
-    type: "CustomResizerNode",
+    type: "IFC Viewer",
     data: {
       label: "Custom Resize Icon",
       viewer: "IfcViewer",
@@ -60,10 +60,10 @@ const initialNodes = [
   },
   {
     id: "3",
-    type: "CustomResizerNode",
+    type: "Potree Viewer",
     data: {
       label: "Custom Resize Icon",
-      viewer: "PdftronViewer",
+      viewer: "PotreeViewer",
       resize: false,
     },
     position: { x: -2332.375, y: 150.875 },
@@ -109,6 +109,7 @@ const FlowWrapper = () => {
             fitView
             nodeTypes={nodeTypes}
             onSelectionChange={handleSelectionChange}
+            elementsSelectable={true}
           >
             <Background variant={BackgroundVariant.Dots} />
             <Controls />
