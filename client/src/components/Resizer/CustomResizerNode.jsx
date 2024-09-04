@@ -11,7 +11,6 @@ const controlStyle = {
 };
 
 const CustomNode = ({ data }) => {
-  console.log("DATA:",data)
   const [isResize, setIsResize] = useState(false)
 
   const renderViwer = (type) => {

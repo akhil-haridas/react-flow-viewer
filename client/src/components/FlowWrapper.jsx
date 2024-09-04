@@ -116,8 +116,8 @@ const FlowWrapper = () => {
   }, [nodes, edges]);
 
   const handleSelectionChange = ({ nodes, edges }) => {
-    console.log("Selected nodes:", nodes);
-    console.log("Selected edges:", edges);
+    // console.log("Selected nodes:", nodes);
+    // console.log("Selected edges:", edges);
   };
 
   const renderWorkMode = () => {
@@ -138,11 +138,7 @@ const FlowWrapper = () => {
         return null;
     }
   };
-console.log(nodeCount,nodes.length)
-  const getId = () => {
-    console.log("nodeCount + 2 ::", nodeCount + 2,nodeCount)
-    return `${nodeCount + 2}`;
-  };
+  const getId = () => `${nodeCount + 2}`;
 
   const onConnect = useCallback((params) => {
     // reset the start node on connections
@@ -153,7 +149,7 @@ console.log(nodeCount,nodes.length)
   const onConnectStart = useCallback((_, { nodeId }) => {
     connectingNodeId.current = nodeId;
   }, []);
-console.log("selectedViewer::",selectedViewer)
+
   const onConnectEnd = useCallback(
     (event) => {
       if (!connectingNodeId.current) return;
@@ -192,11 +188,11 @@ console.log("selectedViewer::",selectedViewer)
         );
       }
     },
-    [screenToFlowPosition,selectedViewer]
+    [screenToFlowPosition, selectedViewer]
   );
 
   const handleViewerChange = (event) => {
-    console.log(event.target.value,"EVALUE")
+    console.log(event.target.value, "EVALUE")
     setSelectedViewer(event.target.value);
   };
 
