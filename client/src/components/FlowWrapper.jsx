@@ -149,7 +149,6 @@ const FlowWrapper = () => {
   }, [nodeCount]);
 
   const onConnect = useCallback((params) => {
-    // reset the start node on connections
     connectingNodeId.current = null;
     setEdges((eds) => addEdge(params, eds));
   }, []);
