@@ -104,7 +104,7 @@ const FlowWrapper = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(loadNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(loadEdges);
 
-  const [nodeCount, setNodeCount] = useState(0);
+  const [nodeCount, setNodeCount] = useState(3);
   const [selectedViewer, setSelectedViewer] = useState("Resources");
 
   const { screenToFlowPosition } = useReactFlow();
@@ -138,7 +138,11 @@ const FlowWrapper = () => {
         return null;
     }
   };
-  const getId = () => `${nodeCount + 2}`;
+
+  const getId = useCallback(() => {
+    setNodeCount((count) => count + 1);
+    return `${nodeCount}`;
+  }, [nodeCount]);
 
   const onConnect = useCallback((params) => {
     // reset the start node on connections
@@ -162,7 +166,7 @@ const FlowWrapper = () => {
             x: event.clientX,
             y: event.clientY,
           }),
-          id: getId(),
+          id: id,
           type: "CustomResizerNode",
           data: {
             label: selectedViewer,
@@ -188,7 +192,7 @@ const FlowWrapper = () => {
         );
       }
     },
-    [screenToFlowPosition, selectedViewer]
+    [screenToFlowPosition, selectedViewer, getId]
   );
 
   const handleViewerChange = (event) => {
