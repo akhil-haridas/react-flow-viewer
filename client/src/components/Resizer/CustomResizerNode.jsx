@@ -4,6 +4,7 @@ import PdftronViewer from "../Pdftron/PdftronViewer";
 import IfcViewer from "../Xbim/IfcViewer";
 import PotreeViewer from "../Potree/PotreeViewer";
 import Resources from "../Resources/Resources";
+import { useWorkMode } from "../../context/WorkModeContext";
 
 const controlStyle = {
   background: "transparent",
@@ -11,7 +12,8 @@ const controlStyle = {
 };
 
 const CustomNode = ({ data }) => {
-  const [isResize, setIsResize] = useState(false)
+  const [isResize, setIsResize] = useState(false);
+  const { isWorkMode, setIsWorkMode, setViewerType } = useWorkMode();
 
   const renderViwer = (type) => {
     switch (type) {
@@ -30,6 +32,10 @@ const CustomNode = ({ data }) => {
 
   const onToggleCheckbox = (tool, e) => {
     if (tool === "resize") setIsResize(e.target.checked)
+    else if (tool === "workmode") {
+      setViewerType(data.viewer)
+      setIsWorkMode(e.target.checked)
+    }
   }
 
   return (
@@ -49,7 +55,12 @@ const CustomNode = ({ data }) => {
           </span>
           <div className="toggleWrapper">
             <label className="check-1">
-              <input type="checkbox" value={isResize} onChange={(e) => onToggleCheckbox("resize", e)} />
+              <input type="checkbox" checked={isResize} onChange={(e) => onToggleCheckbox("resize", e)} />
+              <div className="inner"></div>
+              <div className="bullet"></div>
+            </label>
+            <label className="check-1">
+              <input type="checkbox" checked={isWorkMode} onChange={(e) => onToggleCheckbox("workmode", e)} />
               <div className="inner"></div>
               <div className="bullet"></div>
             </label>

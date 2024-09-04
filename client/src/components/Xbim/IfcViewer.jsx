@@ -1,14 +1,10 @@
-import {
-  Grid,
-  LoaderOverlay,
-  ViewType,
-  Viewer,
-} from "@xbim/viewer";
+import { Grid, LoaderOverlay, ViewType, Viewer } from "@xbim/viewer";
 import React, { useCallback, useEffect } from "react";
 import { useWorkMode } from "../../context/WorkModeContext";
-const modelPath = "/models/SampleHouseV3.wexbim"
+const modelPath = "/models/SampleHouseV3.wexbim";
 const IfcViewer = React.memo(({ idName }) => {
-  const { isWorkMode, setIsWorkMode, viewerType, setViewerType } = useWorkMode();
+  const { setIsWorkMode, setViewerType } =
+    useWorkMode();
 
   const initializeViewer = useCallback((model) => {
     const viewer = new Viewer(idName);
@@ -40,20 +36,16 @@ const IfcViewer = React.memo(({ idName }) => {
     initializeViewer(modelPath);
   }, [initializeViewer, modelPath]);
 
-  const onToggleCheckbox = (e) => {
-    setIsWorkMode(e.target.checked);
-    setViewerType("IfcViewer")
-  }
-
   return (
-    <>
-      <label className="check-1" style={{ position: "absolute" }}>
-        <input type="checkbox" checked={isWorkMode} onChange={onToggleCheckbox} />
-        <div className="inner"></div>
-        <div className="bullet"></div>
-      </label>
-      <canvas id={idName} style={{ width: "100%", height: "calc(100% - 46px)",borderRadius: "0 0 12px 12px", overflow:"hidden" }}></canvas>
-    </>
-  )
+    <canvas
+      id={idName}
+      style={{
+        width: "100%",
+        height: "calc(100% - 46px)",
+        borderRadius: "0 0 12px 12px",
+        overflow: "hidden",
+      }}
+    ></canvas>
+  );
 });
 export default IfcViewer;

@@ -47,7 +47,7 @@ const initialNodes = [
       viewer: "IfcViewer",
       resize: false,
       modelPath: "/models/SampleHouseV3.wexbim",
-      idName: "xBIM-viewer"
+      idName: "xBIM-viewer",
     },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
@@ -106,7 +106,8 @@ const FlowWrapper = () => {
   const [selectedViewer, setSelectedViewer] = useState("Resources");
 
   const { screenToFlowPosition } = useReactFlow();
-  const { isWorkMode, viewerType } = useWorkMode();
+  const { isWorkMode, viewerType, setIsWorkMode, setViewerType } =
+    useWorkMode();
 
   useEffect(() => {
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
@@ -131,7 +132,12 @@ const FlowWrapper = () => {
           />
         );
       case "IfcViewer":
-        return <IfcViewer modelPath={"/models/SampleHouseV3.wexbim"} idName={"xBIM-viewer"} />;
+        return (
+          <IfcViewer
+            modelPath={"/models/SampleHouseV3.wexbim"}
+            idName={"xBIM-viewer"}
+          />
+        );
       default:
         return null;
     }
@@ -170,7 +176,10 @@ const FlowWrapper = () => {
             label: selectedViewer,
             viewer: selectedViewer,
             resize: false,
-            idName: selectedViewer === "IfcViewer" ? `xBIM-viewer${getId()}` : "getId()",
+            idName:
+              selectedViewer === "IfcViewer"
+                ? `xBIM-viewer${getId()}`
+                : "getId()",
           },
           style: {
             background: "#fff",
@@ -194,8 +203,12 @@ const FlowWrapper = () => {
   );
 
   const handleViewerChange = (event) => {
-    console.log(event.target.value, "EVALUE")
     setSelectedViewer(event.target.value);
+  };
+
+  const onToggleCheckbox = (tool, e) => {
+    setViewerType("");
+    setIsWorkMode(false);
   };
 
   return (
@@ -211,6 +224,17 @@ const FlowWrapper = () => {
             <option value="PotreeViewer">Potree Viewer</option>
             <option value="Resources">Resources</option>
           </select>
+          {isWorkMode && (
+            <label className="check-1">
+              <input
+                type="checkbox"
+                checked={isWorkMode}
+                onChange={(e) => onToggleCheckbox(e)}
+              />
+              <div className="inner"></div>
+              <div className="bullet"></div>
+            </label>
+          )}
         </div>
         {!isWorkMode ? (
           <ReactFlow

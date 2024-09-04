@@ -49,6 +49,8 @@ body * {
   background-color: #fff;
   width: 100%;
   padding: 6px 16px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .react-flow-node-resizer-example {
@@ -97,6 +99,7 @@ label>input[type=checkbox] {
   height: 30px;
   border-radius: 50px;
   position: relative;
+  cursor: pointer;
 }
 
 .webviewer>.check-1 {
