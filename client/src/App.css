@@ -102,6 +102,10 @@ label>input[type=checkbox] {
   cursor: pointer;
 }
 
+.react-flow__handle.connectionindicator {
+  z-index: 9;
+}
+
 .webviewer>.check-1 {
   position: absolute;
 }
