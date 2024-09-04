@@ -100,7 +100,13 @@ function ResizeIcon() {
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{ position: "absolute", right: 5, bottom: 5 }}
+        style={{
+          position: "absolute",
+          right: 5,
+          bottom: 5,
+          width: "50px",
+          height: "50px",
+        }}
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <polyline points="16 20 20 20 20 16" />

@@ -156,6 +156,7 @@ const FlowWrapper = () => {
   const onConnectStart = useCallback((_, { nodeId }) => {
     connectingNodeId.current = nodeId;
   }, []);
+
   const onConnectEnd = useCallback(
     (event) => {
       if (!connectingNodeId.current) return;
@@ -186,7 +187,7 @@ const FlowWrapper = () => {
             border: "1px solid black",
             padding: 5,
             borderRadius: 15,
-            height: selectedViewer === "Resources" ? "100%" : "990px",
+            height: selectedViewer === "Resources" ? "400px" : "990px",
             width: "1460px",
           },
           dragHandle: ".drag-handle",
