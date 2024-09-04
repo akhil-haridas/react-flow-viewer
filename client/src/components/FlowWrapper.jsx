@@ -203,7 +203,7 @@ console.log("selectedViewer::",selectedViewer)
   return (
     <div className="flowWrapper">
       <div className="viewerWrapper" ref={reactFlowWrapper}>
-        <div>
+        <div className="toolbarWrapper">
           <select
             value={selectedViewer || "Resources"}
             onChange={handleViewerChange}

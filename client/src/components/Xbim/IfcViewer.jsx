@@ -52,7 +52,7 @@ const IfcViewer = React.memo(() => {
         <div className="inner"></div>
         <div className="bullet"></div>
       </label>
-      <canvas id="xBIM-viewer" style={{ width: "100%", height: "95%" }}></canvas>
+      <canvas id="xBIM-viewer" style={{ width: "100%", height: "calc(100% - 46px)",borderRadius: "0 0 12px 12px", overflow:"hidden" }}></canvas>
     </>
   )
 });

@@ -58,10 +58,12 @@ const PotreeViewer = ({ cloudUrl }) => {
       className="potree_container"
       style={{
         position: "absolute",
-        width: "98%",
-        height: "94%",
+        width: "100%",
+        height: "calc(100% - 46px)",
         display: "flex",
         justifyContent: "center",
+        borderRadius: "0 0 12px 12px",
+        overflow:"hidden"
       }}
     >
       <label

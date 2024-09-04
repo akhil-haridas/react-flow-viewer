@@ -4,27 +4,37 @@ body {
   background: #ecf0f1;
 }
 
+body *{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .flowWrapper {
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  padding: 24px;
   /* justify-content: center; */
   /* background-color: #7a7a7aba; */
 }
 
 .viewerWrapper {
-  width: 75%;
-  height: 75%;
-  border: 4px solid #fff;
-  background-color: white;
+  width: 100%;
+  height: calc(100% - 88px);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-top: auto;
+  box-shadow: 0 0 6px 0 rgba(44, 49, 53, .5019607843137255);
+    border-radius: 16px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  border-right: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  overflow: hidden;
 }
 
 .viewerHeader {
@@ -32,6 +42,23 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 8px 0px;
+}
+
+.toolbarWrapper{
+  background-color: #fff;
+  width: 100%;
+  padding: 6px 16px;
+}
+
+.react-flow-node-resizer-example{
+  height: calc(100% - 32px) !important;
+  background-color: #dfdfdf !important;
+}
+
+.react-flow__node{
+  box-shadow: 0 0 6px 0 rgba(44, 49, 53, .5019607843137255);
+  padding: 0 !important;
 }
 
 .react-flow__handle {
@@ -70,6 +97,16 @@ label>input[type=checkbox] {
 
 .webviewer > .check-1 {
   position: absolute;
+}
+
+.webviewer{
+  overflow: hidden !important;
+  border-radius: 0 0 12px 12px;
+}
+
+.react-flow__resize-control{
+    background-color: yellow !important;
+    z-index: 999;
 }
 
 .check-1 .inner {
