@@ -1,42 +1,63 @@
 import WebViewer from "@pdftron/webviewer";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useWorkMode } from "../../context/WorkModeContext";
 
 const PdftronViewer = () => {
-  const [instance, setInstance] = useState(null);
-  const viewer = useRef(null);
+    const [instance, setInstance] = useState(null);
+    const viewer = useRef(null);
+    const { setSelectedAnnotations } = useWorkMode();
 
-  const initializeViewer = useCallback(async () => {
-    if (instance) return;
-    if (viewer.current) {
-      try {
-        const webinstance = await WebViewer(
-          {
-            path: "/webviewer",
-            licenseKey:
-              "demo:1721108165987:7f9a5c7b03000000007463b7c7a77a620e9c805eedc37b89008b5843ac",
-            initialDoc:
-              "https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf",
-          },
-          viewer.current
-        );
-        setInstance(webinstance);
-      } catch (error) {
-        console.error("Error initializing WebViewer:", error);
-      }
-    }
-  }, []);
+    const saveAnnotations = async (annotationManager) => {
+        const annotationsJSON = await annotationManager.exportAnnotations();
+        localStorage.setItem("annotations", JSON.stringify(annotationsJSON));
+    };
 
-  useEffect(() => {
-    initializeViewer();
-  }, [initializeViewer]);
+    const initializeViewer = useCallback(async () => {
+        if (instance) return;
+        if (viewer.current) {
+            try {
+                WebViewer(
+                    {
+                        path: "/webviewer",
+                        licenseKey: "your_license_key_here",
+                        initialDoc:
+                            "https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf",
+                    },
+                    viewer.current
+                ).then(async (instance) => {
+                    if (instance) {
+                        setInstance(instance);
+                        const { documentViewer, annotationManager } = instance.Core;
 
-  return (
-    <div
-      className="webviewer"
-      ref={viewer}
-      style={{ height: "calc(100% - 48px)", width: "100%" }}
-    />
-  );
+                        documentViewer.addEventListener("documentLoaded", async () => {
+                            const storedAnnotations = localStorage.getItem("annotations");
+                            if (storedAnnotations) {
+                                const annotations = JSON.parse(storedAnnotations);
+                                await annotationManager.importAnnotations(annotations);
+                            }
+                        });
+
+                        annotationManager.addEventListener("annotationChanged", (annotations, action) => saveAnnotations(annotationManager));
+                        annotationManager.addEventListener("annotationSelected", (annotations) => { setSelectedAnnotations(annotationManager.getSelectedAnnotations()) });
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing WebViewer:", error);
+            }
+        }
+    }, [instance]);
+
+    useEffect(() => {
+        initializeViewer();
+    }, [initializeViewer]);
+
+    return (
+        <div
+            className="webviewer"
+            ref={viewer}
+            style={{ height: "calc(100% - 48px)", width: "100%" }}
+        />
+    );
 };
 
 export default PdftronViewer;

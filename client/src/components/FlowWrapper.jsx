@@ -111,9 +111,8 @@ const FlowWrapper = () => {
   const [selectedViewer, setSelectedViewer] = useState("Resources");
 
   const { screenToFlowPosition } = useReactFlow();
-  const { isWorkMode, viewerType, setIsWorkMode, setViewerType } =
-    useWorkMode();
-
+  const { isWorkMode, viewerType, setIsWorkMode, setViewerType, selectedAnnotations } = useWorkMode();
+  
   useEffect(() => {
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
     localStorage.setItem("flowEdges", JSON.stringify(edges));
@@ -172,7 +171,7 @@ const FlowWrapper = () => {
 
       if (targetIsPane) {
         const id = getId();
-        const newNode = {
+        const newNode = selectedAnnotations.length === 0 ? {
           position: screenToFlowPosition({
             x: event.clientX,
             y: event.clientY,
@@ -198,6 +197,29 @@ const FlowWrapper = () => {
             width: "1460px",
           },
           dragHandle: ".drag-handle",
+        } : {
+          position: screenToFlowPosition({
+            x: event.clientX,
+            y: event.clientY,
+          }),
+          id: id,
+          type: "CustomResizerNode",
+          data: {
+            label: "Resources",
+            viewer: "Resources",
+            resize: false,
+            selectedAnnotations: selectedAnnotations
+          },
+          style: {
+            background: "#fff",
+            fontSize: 12,
+            border: "1px solid black",
+            padding: 5,
+            borderRadius: 15,
+            height: "400px",
+            width: "1460px",
+          },
+          dragHandle: ".drag-handle",
         };
 
         setNodes((nds) => nds.concat(newNode));
@@ -212,7 +234,7 @@ const FlowWrapper = () => {
         );
       }
     },
-    [screenToFlowPosition, selectedViewer, getId]
+    [screenToFlowPosition, selectedViewer, getId, selectedAnnotations]
   );
 
   const handleViewerChange = (event) => {

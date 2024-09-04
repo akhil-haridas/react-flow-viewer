@@ -30,7 +30,7 @@ const CustomNode = ({ data }) => {
       case "IfcViewer":
         return <IfcViewer modelPath={data.modelPath} idName={data.idName} />;
       case "Resources":
-        return <Resources />;
+        return <Resources selectedAnnotations={data?.selectedAnnotations} />;
       default:
         return null;
     }
