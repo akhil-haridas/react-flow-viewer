@@ -131,7 +131,7 @@ const FlowWrapper = () => {
           />
         );
       case "IfcViewer":
-        return <IfcViewer modelPath={"/models/SampleHouseV3.wexbim"} />;
+        return <IfcViewer modelPath={"/models/SampleHouseV3.wexbim"} idName={"xBIM-viewer"} />;
       default:
         return null;
     }
