@@ -85,8 +85,6 @@ const initialNodes = [
   },
 ];
 
-const initialEdges = [];
-
 const FlowWrapper = () => {
   const reactFlowWrapper = useRef(null);
   const connectingNodeId = useRef(null);
@@ -98,7 +96,7 @@ const FlowWrapper = () => {
 
   const loadEdges = () => {
     const storedEdges = localStorage.getItem("flowEdges");
-    return storedEdges ? JSON.parse(storedEdges) : initialEdges;
+    return storedEdges ? JSON.parse(storedEdges) : [];
   };
 
   const [nodes, setNodes, onNodesChange] = useNodesState(loadNodes);
@@ -216,8 +214,6 @@ const FlowWrapper = () => {
         </div>
         {!isWorkMode ? (
           <ReactFlow
-            defaultNodes={initialNodes}
-            defaultEdges={initialEdges}
             nodes={nodes}
             edges={edges}
             className="react-flow-node-resizer-example"
