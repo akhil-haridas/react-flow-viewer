@@ -85,6 +85,11 @@ const initialNodes = [
   },
 ];
 
+const edgeStyle = {
+  stroke: "#ff0072",
+  strokeWidth: 10,
+};
+
 const FlowWrapper = () => {
   const reactFlowWrapper = useRef(null);
   const connectingNodeId = useRef(null);
@@ -150,7 +155,9 @@ const FlowWrapper = () => {
 
   const onConnect = useCallback((params) => {
     connectingNodeId.current = null;
-    setEdges((eds) => addEdge(params, eds));
+    setEdges((eds) =>
+      addEdge({ ...params, animated: true, style: edgeStyle }, eds)
+    );
   }, []);
 
   const onConnectStart = useCallback((_, { nodeId }) => {
@@ -195,7 +202,13 @@ const FlowWrapper = () => {
 
         setNodes((nds) => nds.concat(newNode));
         setEdges((eds) =>
-          eds.concat({ id, source: connectingNodeId.current, target: id })
+          eds.concat({
+            id,
+            source: connectingNodeId.current,
+            target: id,
+            animated: true,
+            style: edgeStyle,
+          })
         );
       }
     },
