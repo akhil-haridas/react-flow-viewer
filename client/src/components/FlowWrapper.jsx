@@ -112,15 +112,24 @@ const FlowWrapper = () => {
 
   const { screenToFlowPosition } = useReactFlow();
   const { isWorkMode, viewerType, setIsWorkMode, setViewerType, selectedAnnotations } = useWorkMode();
-  
+
   useEffect(() => {
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
     localStorage.setItem("flowEdges", JSON.stringify(edges));
   }, [nodes, edges]);
 
-  const handleSelectionChange = ({ nodes, edges }) => {
-    // console.log("Selected nodes:", nodes);
-    // console.log("Selected edges:", edges);
+  const handleSelectionChange = ({ nodes: selectedNodes }) => {
+    setNodes((nds) =>
+      nds.map((node) => ({
+        ...node,
+        style: {
+          ...node.style,
+          border: selectedNodes.find((n) => n.id === node.id)
+            ? "5px solid green"
+            : "1px solid black",
+        },
+      }))
+    );
   };
 
   const renderWorkMode = () => {
