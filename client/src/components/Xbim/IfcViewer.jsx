@@ -7,11 +7,12 @@ import {
 import React, { useCallback, useEffect } from "react";
 import { useWorkMode } from "../../context/WorkModeContext";
 const modelPath = "/models/SampleHouseV3.wexbim"
-const IfcViewer = React.memo(() => {
+const IfcViewer = React.memo(({ idName }) => {
+  console.log(idName)
   const { isWorkMode, setIsWorkMode, viewerType, setViewerType } = useWorkMode();
 
   const initializeViewer = useCallback((model) => {
-    const viewer = new Viewer("xBIM-viewer");
+    const viewer = new Viewer(idName);
     const overlay = new LoaderOverlay();
     viewer.addPlugin(overlay);
     overlay.show();
@@ -52,7 +53,7 @@ const IfcViewer = React.memo(() => {
         <div className="inner"></div>
         <div className="bullet"></div>
       </label>
-      <canvas id="xBIM-viewer" style={{ width: "100%", height: "calc(100% - 46px)",borderRadius: "0 0 12px 12px", overflow:"hidden" }}></canvas>
+      <canvas id={idName} style={{ width: "100%", height: "calc(100% - 46px)",borderRadius: "0 0 12px 12px", overflow:"hidden" }}></canvas>
     </>
   )
 });

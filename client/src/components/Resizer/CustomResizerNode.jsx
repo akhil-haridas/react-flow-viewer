@@ -20,7 +20,7 @@ const CustomNode = ({ data }) => {
       case "PotreeViewer":
         return <PotreeViewer cloudUrl={"http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"} />
       case "IfcViewer":
-        return <IfcViewer modelPath={data.modelPath} />;
+        return <IfcViewer modelPath={data.modelPath} idName={data.idName} />;
       case "Resources":
         return <Resources />;
       default:

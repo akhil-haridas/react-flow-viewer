@@ -23,7 +23,7 @@ const nodeTypes = {
 
 const initialNodes = [
   {
-    id: "1",
+    id: "0",
     type: "CustomResizerNode",
     data: { label: "Apryse Viewer", viewer: "PdftronViewer", resize: false },
     position: { x: -133.15263157894736, y: 861.9490131578948 },
@@ -40,13 +40,14 @@ const initialNodes = [
     dragHandle: ".drag-handle",
   },
   {
-    id: "2",
+    id: "1",
     type: "CustomResizerNode",
     data: {
       label: "IFC Viewer",
       viewer: "IfcViewer",
       resize: false,
       modelPath: "/models/SampleHouseV3.wexbim",
+      idName: "xBIM-viewer"
     },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
@@ -62,7 +63,7 @@ const initialNodes = [
     dragHandle: ".drag-handle",
   },
   {
-    id: "3",
+    id: "2",
     type: "CustomResizerNode",
     data: {
       label: "Potree Viewer",
@@ -103,7 +104,7 @@ const FlowWrapper = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(loadNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(loadEdges);
 
-  const [nodeCount, setNodeCount] = useState(nodes.length);
+  const [nodeCount, setNodeCount] = useState(0);
   const [selectedViewer, setSelectedViewer] = useState("Resources");
 
   const { screenToFlowPosition } = useReactFlow();
@@ -112,7 +113,6 @@ const FlowWrapper = () => {
   useEffect(() => {
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
     localStorage.setItem("flowEdges", JSON.stringify(edges));
-    setNodeCount(nodes.length);
   }, [nodes, edges]);
 
   const handleSelectionChange = ({ nodes, edges }) => {
@@ -149,7 +149,6 @@ const FlowWrapper = () => {
   const onConnectStart = useCallback((_, { nodeId }) => {
     connectingNodeId.current = nodeId;
   }, []);
-
   const onConnectEnd = useCallback(
     (event) => {
       if (!connectingNodeId.current) return;
@@ -169,6 +168,7 @@ const FlowWrapper = () => {
             label: selectedViewer,
             viewer: selectedViewer,
             resize: false,
+            idName: selectedViewer === "IfcViewer" ? `xBIM-viewer${getId()}` : "getId()",
           },
           style: {
             background: "#fff",
