@@ -4,8 +4,7 @@ import { useWorkMode } from "../../context/WorkModeContext";
 const Potree = window.Potree;
 
 const PotreeViewer = ({ cloudUrl }) => {
-  const { isWorkMode } =
-    useWorkMode();
+  const { isWorkMode } = useWorkMode();
 
   const potreeContainerDiv = useRef(null);
   const viewerInitialized = useRef(false);
@@ -53,19 +52,19 @@ const PotreeViewer = ({ cloudUrl }) => {
       className="potree_container"
       style={{
         position: "absolute",
-        width: "100%",
-        height: "calc(100% - 46px)",
+        width: isWorkMode ? "94%" : "100%",
+        height: isWorkMode ? "81%" : "calc(100% - 46px)",
         display: "flex",
         justifyContent: "center",
         borderRadius: "0 0 12px 12px",
-        overflow:"hidden"
+        overflow: "hidden",
       }}
     >
       <div id="potree_render_area" ref={potreeContainerDiv}></div>
       {isWorkMode && (
         <div
           id="potree_sidebar_container"
-          style={{ left: "0", zIndex: "100" }}
+          style={{ left: "2px", zIndex: "100", borderBottomLeftRadius: "20px" }}
         ></div>
       )}
     </div>

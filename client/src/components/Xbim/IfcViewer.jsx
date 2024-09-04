@@ -1,11 +1,7 @@
 import { Grid, LoaderOverlay, ViewType, Viewer } from "@xbim/viewer";
 import React, { useCallback, useEffect } from "react";
-import { useWorkMode } from "../../context/WorkModeContext";
 const modelPath = "/models/SampleHouseV3.wexbim";
 const IfcViewer = React.memo(({ idName }) => {
-  const { setIsWorkMode, setViewerType } =
-    useWorkMode();
-
   const initializeViewer = useCallback((model) => {
     const viewer = new Viewer(idName);
     const overlay = new LoaderOverlay();

@@ -20,7 +20,13 @@ const CustomNode = ({ data }) => {
       case "PdftronViewer":
         return <PdftronViewer />;
       case "PotreeViewer":
-        return <PotreeViewer cloudUrl={"http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"} />
+        return (
+          <PotreeViewer
+            cloudUrl={
+              "http://5.9.65.151/mschuetz/potree/resources/pointclouds/helimap/360/MLS_drive1/cloud.js"
+            }
+          />
+        );
       case "IfcViewer":
         return <IfcViewer modelPath={data.modelPath} idName={data.idName} />;
       case "Resources":
@@ -31,12 +37,12 @@ const CustomNode = ({ data }) => {
   };
 
   const onToggleCheckbox = (tool, e) => {
-    if (tool === "resize") setIsResize(e.target.checked)
+    if (tool === "resize") setIsResize(e.target.checked);
     else if (tool === "workmode") {
-      setViewerType(data.viewer)
-      setIsWorkMode(e.target.checked)
+      setViewerType(data.viewer);
+      setIsWorkMode(e.target.checked);
     }
-  }
+  };
 
   return (
     <>
@@ -55,12 +61,20 @@ const CustomNode = ({ data }) => {
           </span>
           <div className="toggleWrapper">
             <label className="check-1">
-              <input type="checkbox" checked={isResize} onChange={(e) => onToggleCheckbox("resize", e)} />
+              <input
+                type="checkbox"
+                checked={isResize}
+                onChange={(e) => onToggleCheckbox("resize", e)}
+              />
               <div className="inner"></div>
               <div className="bullet"></div>
             </label>
             <label className="check-1">
-              <input type="checkbox" checked={isWorkMode} onChange={(e) => onToggleCheckbox("workmode", e)} />
+              <input
+                type="checkbox"
+                checked={isWorkMode}
+                onChange={(e) => onToggleCheckbox("workmode", e)}
+              />
               <div className="inner"></div>
               <div className="bullet"></div>
             </label>

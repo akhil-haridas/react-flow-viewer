@@ -255,7 +255,9 @@ const FlowWrapper = () => {
             <Controls />
           </ReactFlow>
         ) : (
-          <>{renderWorkMode()}</>
+          <div style={{ width: "100%", height: "100%" }}>
+            {renderWorkMode()}
+          </div>
         )}
       </div>
     </div>

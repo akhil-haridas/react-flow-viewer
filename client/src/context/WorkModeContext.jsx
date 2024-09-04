@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const WorkModeContext = createContext();
 
@@ -7,7 +7,9 @@ export const WorkModeProvider = ({ children }) => {
   const [viewerType, setViewerType] = useState(null);
 
   return (
-    <WorkModeContext.Provider value={{ isWorkMode, setIsWorkMode, viewerType, setViewerType }}>
+    <WorkModeContext.Provider
+      value={{ isWorkMode, setIsWorkMode, viewerType, setViewerType }}
+    >
       {children}
     </WorkModeContext.Provider>
   );

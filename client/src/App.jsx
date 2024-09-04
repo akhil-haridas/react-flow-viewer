@@ -9,7 +9,7 @@ function App() {
     <ReactFlowProvider>
       <FlowWrapper />
     </ReactFlowProvider>
-  )
+  );
 }
 
 export default App;
