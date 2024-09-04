@@ -8,7 +8,6 @@ import React, { useCallback, useEffect } from "react";
 import { useWorkMode } from "../../context/WorkModeContext";
 const modelPath = "/models/SampleHouseV3.wexbim"
 const IfcViewer = React.memo(({ idName }) => {
-  console.log(idName)
   const { isWorkMode, setIsWorkMode, viewerType, setViewerType } = useWorkMode();
 
   const initializeViewer = useCallback((model) => {
