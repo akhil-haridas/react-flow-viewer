@@ -166,8 +166,19 @@ const FlowWrapper = () => {
 
   const onConnect = useCallback((params) => {
     connectingNodeId.current = null;
+
+    const sourceNode = nodes.find((node) => node.id === params.source);
+    const targetNode = nodes.find((node) => node.id === params.target);
+    const edgeLabel = `${sourceNode?.data?.label || 'Unknown Source'} to ${targetNode?.data?.label || 'Unknown Target'}`;
+
     setEdges((eds) =>
-      addEdge({ ...params, animated: true, style: edgeStyle }, eds)
+      addEdge({
+        ...params, animated: true, style: edgeStyle,
+        label: edgeLabel,
+        labelBgPadding: [8, 4],
+        labelBgBorderRadius: 4,
+        labelBgStyle: { fill: '#ffcc00', color: '#fff', fontWeight: 700, height: "20px" },
+      }, eds)
     );
   }, []);
 
@@ -234,6 +245,12 @@ const FlowWrapper = () => {
           dragHandle: ".drag-handle",
         };
 
+        const sourceNode = nodes.find((node) => node.id === connectingNodeId.current);
+        const edgeLabel =
+          selectedAnnotations.length > 0
+            ? `${selectedAnnotations.length} annots selected`
+            : `${sourceNode?.data?.label || "Source"} to ${newNode.data.label || "Target"}`;
+
         setNodes((nds) => nds.concat(newNode));
         setEdges((eds) =>
           eds.concat({
@@ -242,6 +259,15 @@ const FlowWrapper = () => {
             target: id,
             animated: true,
             style: edgeStyle,
+            label: edgeLabel,
+            labelBgPadding: [8, 4],
+            labelBgBorderRadius: 4,
+            labelBgStyle: {
+              fill: "#ffcc00",
+              color: "#fff",
+              fontWeight: 700,
+              height: "20px",
+            },
           })
         );
       }
