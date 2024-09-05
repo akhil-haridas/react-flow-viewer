@@ -119,17 +119,20 @@ const FlowWrapper = () => {
   }, [nodes, edges]);
 
   const handleSelectionChange = ({ nodes: selectedNodes }) => {
-    setNodes((nds) =>
-      nds.map((node) => ({
-        ...node,
-        style: {
-          ...node.style,
-          border: selectedNodes.find((n) => n.id === node.id)
-            ? "5px solid green"
-            : "1px solid black",
-        },
-      }))
-    );
+    if (selectedNodes?.length > 0) {
+      setNodes((nds) =>
+        nds.map((node) => ({
+          ...node,
+          style: {
+            ...node.style,
+            border: selectedNodes.find((n) => n.id === node.id)
+              ? "5px solid green"
+              : "1px solid black",
+          },
+        }))
+      );
+    }
+
   };
 
   const renderWorkMode = () => {
