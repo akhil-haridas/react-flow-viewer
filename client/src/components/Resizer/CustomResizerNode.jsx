@@ -13,7 +13,7 @@ const controlStyle = {
 
 const CustomNode = ({ data }) => {
   const [isResize, setIsResize] = useState(false);
-  const { isWorkMode, setIsWorkMode, setViewerType } = useWorkMode();
+  const { isWorkMode, setIsWorkMode, setViewerType, setOnDelete } = useWorkMode();
 
   const renderViwer = (type) => {
     switch (type) {
@@ -78,7 +78,7 @@ const CustomNode = ({ data }) => {
               <div className="inner"></div>
               <div className="bullet"></div>
             </label>
-            <button className="removeButton">
+            <button className="removeButton" onClick={() => setOnDelete({ id: data.id, delete: true })}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path
                   fill="#fe0606"

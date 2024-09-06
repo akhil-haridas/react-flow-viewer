@@ -25,7 +25,7 @@ const initialNodes = [
   {
     id: "0",
     type: "CustomResizerNode",
-    data: { label: "Apryse Viewer", viewer: "PdftronViewer", resize: false },
+    data: { label: "Apryse Viewer", viewer: "PdftronViewer", resize: false, id: "0", },
     position: { x: -133.15263157894736, y: 861.9490131578948 },
     style: {
       background: "#fff",
@@ -48,6 +48,7 @@ const initialNodes = [
       resize: false,
       modelPath: "/models/SampleHouseV3.wexbim",
       idName: "xBIM-viewer",
+      id: "1",
     },
     position: { x: 2059.236224113849, y: 2555.728188789856 },
     style: {
@@ -69,6 +70,7 @@ const initialNodes = [
       label: "Potree Viewer",
       viewer: "PotreeViewer",
       resize: false,
+      id: "2",
     },
     position: { x: -2332.375, y: 150.875 },
     style: {
@@ -111,7 +113,7 @@ const FlowWrapper = () => {
   const [selectedViewer, setSelectedViewer] = useState("Resources");
 
   const { screenToFlowPosition } = useReactFlow();
-  const { isWorkMode, viewerType, setIsWorkMode, setViewerType, selectedAnnotations } = useWorkMode();
+  const { isWorkMode, viewerType, setIsWorkMode, setViewerType, selectedAnnotations, onDelete, setOnDelete } = useWorkMode();
 
   useEffect(() => {
     localStorage.setItem("flowNodes", JSON.stringify(nodes));
@@ -209,6 +211,7 @@ const FlowWrapper = () => {
               selectedViewer === "IfcViewer"
                 ? `xBIM-viewer${getId()}`
                 : "getId()",
+            id: `${getId()}`,
           },
           style: {
             background: "#fff",
@@ -231,7 +234,8 @@ const FlowWrapper = () => {
             label: "Resources",
             viewer: "Resources",
             resize: false,
-            selectedAnnotations: selectedAnnotations
+            selectedAnnotations: selectedAnnotations,
+            id: `${getId()}`,
           },
           style: {
             background: "#fff",
@@ -283,6 +287,22 @@ const FlowWrapper = () => {
     setViewerType("");
     setIsWorkMode(false);
   };
+
+  const handleDeleteNode = useCallback((id) => {
+    setOnDelete({ id: null, delete: false })
+    const selectedNodes = nodes.filter(node => node.id === id);
+    if (selectedNodes.length > 0) {
+      const nodeToDelete = selectedNodes[0];
+      setNodes(nds => nds.filter(node => node.id !== nodeToDelete.id));
+      setEdges(eds => eds.filter(edge => edge.source !== nodeToDelete.id && edge.target !== nodeToDelete.id));
+    }
+  }, [nodes, edges, setNodes, setEdges]);
+
+  useEffect(() => {
+    if (onDelete?.delete && onDelete?.id) {
+      handleDeleteNode(onDelete.id)
+    }
+  }, [onDelete])
 
   return (
     <div className="flowWrapper">
